@@ -2,21 +2,24 @@ package edu.oregonstate.cs492.githubsearchwithnavigation.ui
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import edu.oregonstate.cs492.githubsearchwithnavigation.R
+import edu.oregonstate.cs492.githubsearchwithnavigation.data.GitHubRepo
 import edu.oregonstate.cs492.githubsearchwithnavigation.util.LoadingStatus
 
 class GitHubSearchFragment : Fragment(R.layout.fragment_github_search) {
     private val viewModel: GitHubSearchViewModel by viewModels()
-    private val adapter = GitHubRepoListAdapter()
+    private val adapter = GitHubRepoListAdapter(::onGitHubRepoClick)
 
     private lateinit var searchResultsListRV: RecyclerView
     private lateinit var searchErrorTV: TextView
@@ -76,5 +79,11 @@ class GitHubSearchFragment : Fragment(R.layout.fragment_github_search) {
                 searchResultsListRV.scrollToPosition(0)
             }
         }
+    }
+
+    private fun onGitHubRepoClick(repo: GitHubRepo) {
+        Log.d("GitHubSearchFragment", "A repo was clicked: ${repo.name}")
+        val directions = GitHubSearchFragmentDirections.navigateToRepoDetail(repo)
+        findNavController().navigate(directions)
     }
 }
