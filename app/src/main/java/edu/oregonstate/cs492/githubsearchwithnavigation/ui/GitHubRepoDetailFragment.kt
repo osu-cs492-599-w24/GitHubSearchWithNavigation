@@ -43,6 +43,10 @@ class GitHubRepoDetailFragment : Fragment(R.layout.fragment_github_repo_detail) 
                             viewOnGitHub()
                             true
                         }
+                        R.id.action_share -> {
+                            share()
+                            true
+                        }
                         else -> false
                     }
                 }
@@ -60,5 +64,19 @@ class GitHubRepoDetailFragment : Fragment(R.layout.fragment_github_repo_detail) 
         } catch (e: ActivityNotFoundException) {
             /* Handle activity not found */
         }
+    }
+
+    private fun share() {
+        val shareText = getString(
+            R.string.share_text,
+            args.repo.name,
+            args.repo.url
+        )
+        val intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, shareText)
+            type = "text/plain"
+        }
+        startActivity(Intent.createChooser(intent, null))
     }
 }

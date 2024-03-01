@@ -12,4 +12,6 @@
 
     <string name="action_open_in_browser">View on GitHub</string>
     <string name="action_share">Share</string>
+
+    <string name="share_text">%1$s on GitHub: %2$s</string>
 </resources>
